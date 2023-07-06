@@ -7,6 +7,8 @@ Learning & practicing clean code in typescript
   1. [What is clean code](#what-is-clean-code)
   2. [Variables](#variables)
   3. [Functions](#functions)
+  4. [Comments](#comments)
+  5. [Error Hanlding](#error-handling)
 
 ## Why clean code
 
@@ -119,15 +121,74 @@ Clean code always looks like it was written by someone who cares. -- Michael Fea
 
 - The ideal number of arguments for a function is zero. Next comes one, followed closely by two. Three arguments should be avoided where possible.
 
-**Bad:**
-```ts
+  **Bad:**
+  ```ts
+  function placeOrder(id: number, name: string, amount: number){
+    ...
+  }
 
-```
+  ```
+
+  **Good:**
+  ```ts
+  let order = new Order();
+  order.id = 1001;
+  order.name = 'Roadster'
+  order.amount = 10;
+
+  placeOrder(order);
+
+  function placeOrder(order: Order){
+    ...
+  }
+
+  ```
+
+**[⬆ back to top](#table-of-contents)**
+
+
+## Comments
+
+- Try to avoid using comments. Explain yourself in code
+- As time goes by, comments would be misleading if it's not updated properly
+- Use markers such as TODO: FIXME: etc.. Most IDE provides marker tool to show the marker list. like Todo Tree for VSCode
 
 **Good:**
 ```ts
+// TODO: Code smells, need to refactor
+// FIXME: I'm not working well, fix me as early as possible
+
+function makePayment(){
+  ...
+}
 
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+
+## Error Hanlding
+
+- Use Exception Rather Than Return Codes
+- Write Try-Catch-Finally Statement First
+
+  - In modern TypeScript, we can hide Try-Catch-Finally logic in Decorator. So we don't see Try-Catch-Finally everywhere in our code. This is to follow DRY - Don't Repeat Yourself principle
+- Use unchecked Exceptions
+
+  - The price of checked exception is an Open/Close Principle violation. If we throw a checked exception from a method in our code and the catch is three levels above, we must declare that exception in the signature of each method. This means that a change at a low level of the software can force signature changes on many higher levels. The changed modules must be rebuild and redeployed, even throgh nothing they care about changed. 
+- Provide Context with Exceptions
+
+  - So it's easier to get RCA
+
+- Don't Return Null
+
+  ```ts
+  // TODO:
+  ```
+- Don't Pass Null
+  ```ts
+  // TODO:
+  ```
 
 
 
