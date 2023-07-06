@@ -8,7 +8,7 @@ Learning & practicing clean code in typescript
   2. [Variables](#variables)
   3. [Functions](#functions)
   4. [Comments](#comments)
-  5. [Error Hanlding](#error-handling)
+  5. [Error Handling](#error-handling)
 
 ## Why clean code
 
@@ -167,7 +167,7 @@ function makePayment(){
 **[⬆ back to top](#table-of-contents)**
 
 
-## Error Hanlding
+## Error Handling
 
 - Use Exception Rather Than Return Codes
 - Write Try-Catch-Finally Statement First
