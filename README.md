@@ -3,12 +3,17 @@ Learning & practicing clean code in typescript
 
 ## Table of Contents
 
-  0. [Why clean code](#why-clean-code)
-  1. [What is clean code](#what-is-clean-code)
-  2. [Variables](#variables)
-  3. [Functions](#functions)
-  4. [Comments](#comments)
-  5. [Error Handling](#error-handling)
+- [clean-code-typescript](#clean-code-typescript)
+  - [Table of Contents](#table-of-contents)
+  - [Why clean code](#why-clean-code)
+  - [What is clean code](#what-is-clean-code)
+  - [Variables](#variables)
+  - [Functions](#functions)
+  - [Comments](#comments)
+  - [Error Handling](#error-handling)
+  - [Unit Tests](#unit-tests)
+  - [System Design \& Development Principles](#system-design--development-principles)
+
 
 ## Why clean code
 
@@ -172,7 +177,7 @@ function makePayment(){
 - Use Exception Rather Than Return Codes
 - Write Try-Catch-Finally Statement First
 
-  - In modern TypeScript, we can hide Try-Catch-Finally logic in Decorator. So we don't see Try-Catch-Finally everywhere in our code. This is to follow DRY - Don't Repeat Yourself principle
+  - In modern TypeScript, we can wrap Try-Catch-Finally logic in Decorator. So we don't see Try-Catch-Finally everywhere in our code. This is to follow DRY - Don't Repeat Yourself principle
 - Use unchecked Exceptions
 
   - The price of checked exception is an Open/Close Principle violation. If we throw a checked exception from a method in our code and the catch is three levels above, we must declare that exception in the signature of each method. This means that a change at a low level of the software can force signature changes on many higher levels. The changed modules must be rebuild and redeployed, even throgh nothing they care about changed. 
@@ -180,17 +185,69 @@ function makePayment(){
 
   - So it's easier to get RCA
 
-- Don't Return Null
-
-  ```ts
-  // TODO:
-  ```
 - Don't Pass Null
-  ```ts
-  // TODO:
-  ```
+  - It's very easy to invite unexpected exceptions such as NullPointerException etc. when dealing with null objects. See what happens passing a null to payment
+    ```ts
+    function makePayment(payment: Payment) {
+      let firstName = payment.user.firstName;
+    }
+    ```
+  - May introduce a lot of if statements to check if it's not null, something like below:
+
+    ```ts
+    function makePayment(payment: Payment) {
+      if(payment != null){
+        if(payment.user != null){
+          let firstName = payment.user.firstName;
+        }
+      }
+    }
+    ```
+- Don't Return Null
+  - Likewise, we do not return null from functions in normal case
+    ```ts
+    function loadUser(userId: number): User{
+      let user = null;
+      if(userId){
+        user = getUserById(userId);
+      }
+
+      return user;
+    }
+
+    function getUserFullName(user: User): string{
+      let user = loadUser();
+      let fullName = `${user.firstName} ${user.lastName}`;
+
+      return fullName;
+    }
+    ```
+**[⬆ back to top](#table-of-contents)**
+
+## Unit Tests
+- FIRST
+  - **Fast** Tests should be fast. When tests run takes time, we don't want to run them frequently
+  - **Independent** Tests should not depend on each other. One test's setup doesn't impact others
+  - **Repeatable** Tests should be repeatable in any environments
+  - **Self-Validating** There should be be some asserts validation in tests to tell if it's success or not
+  - **Timely** Writing unit tests before any production code
+
+**[⬆ back to top](#table-of-contents)**
 
 
+## System Design & Development Principles
+- SOLID
+  - **Single Responsibility Principle** There should never be more than one reason for a class to change. Every class should have one responsibility.
+  - **Open Close Principle** A great software should be open for extension, but close for modification.
+  - **Liskov Substitution Principle** Subclass/derived class should be substitutable for their base/parent class. Refer to Polymorphism in OO Design.
+  - **Interface Segregation Principle** Clients should not be forced to depend upon interfaces that they do not use.
+  - **Dependency Inversion Principle** Depend on abstractions, not concretions. In other words, depend on interfaces, not implementations. An example is Service provider injection in Angular.
+
+
+- DRY
+  - **Don't Repeat Yourself** principle: A piece of logic should only be represented once in an application. Too many try-catch statements in error handling of a system might be a violation of this pattern. We can eliminate this by leveraging the power of **meta programming** such as **Decorator** in TypeScript
+ 
+**[⬆ back to top](#table-of-contents)**
 
 
 
